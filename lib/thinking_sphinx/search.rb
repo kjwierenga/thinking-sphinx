@@ -16,6 +16,8 @@ module ThinkingSphinx
         results, client = search_results(*args.clone)
         
         begin
+          options = args.extract_options!
+          page = options[:page] ? options[:page].to_i : 1
           pager = WillPaginate::Collection.new(page,
             client.limit, results[:total])
           pager.replace results[:matches].collect { |match| match[:doc] }
