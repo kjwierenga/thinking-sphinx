@@ -234,7 +234,7 @@ module ThinkingSphinx
       # 
       def class_from_crc(crc)
         unless @models_by_crc
-          Configuration.new.load_models
+          Configuration.instance.load_models
           
           @models_by_crc = ThinkingSphinx.indexed_models.inject({}) do |hash, model|
             hash[model.constantize.to_crc32] = model
@@ -249,7 +249,7 @@ module ThinkingSphinx
       # options hash.
       # 
       def client_from_options(options)
-        config = ThinkingSphinx::Configuration.new
+        config = ThinkingSphinx::Configuration.instance
         client = Riddle::Client.new config.address, config.port
         klass  = options[:class]
         index_options = klass ? klass.indexes.last.options : {}

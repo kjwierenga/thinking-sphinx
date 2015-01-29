@@ -33,6 +33,8 @@ module ThinkingSphinx
   # don't set allow_star to true.
   # 
   class Configuration
+    include Singleton
+    
     attr_accessor :config_file, :searchd_log_file, :query_log_file,
       :pid_file, :searchd_file_path, :address, :port, :allow_star, :mem_limit,
       :max_matches, :morphology, :charset_type, :charset_table, :app_root
@@ -42,10 +44,10 @@ module ThinkingSphinx
     # Load in the configuration settings - this will look for config/sphinx.yml
     # and parse it according to the current environment.
     # 
-    def initialize(app_root = Dir.pwd)
+    def initialize#(app_root = Dir.pwd)
       self.app_root          = RAILS_ROOT if defined?(RAILS_ROOT)
       self.app_root          = Merb.root  if defined?(Merb)
-      self.app_root        ||= app_root
+      self.app_root        ||= Dir.pwd # app_root
       
       self.config_file       = "#{app_root}/config/#{environment}.sphinx.conf"
       self.searchd_log_file  = "#{app_root}/log/searchd.log"

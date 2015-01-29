@@ -177,7 +177,7 @@ describe "ThinkingSphinx::ActiveRecord::Delta" do
       @person.send(:index_delta)
       
       @person.should have_received(:system).with(
-        "indexer --config #{ThinkingSphinx::Configuration.new.config_file} --rotate person_delta"
+        "indexer --config #{ThinkingSphinx::Configuration.instance.config_file} --rotate person_delta"
       )
     end
   end

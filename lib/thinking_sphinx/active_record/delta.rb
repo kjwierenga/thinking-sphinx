@@ -71,7 +71,7 @@ module ThinkingSphinx
               return true
             end
             
-            configuration = ThinkingSphinx::Configuration.new
+            configuration = ThinkingSphinx::Configuration.instance
             system "indexer --config #{configuration.config_file} --rotate #{self.class.name.downcase}_delta"
             
             true
