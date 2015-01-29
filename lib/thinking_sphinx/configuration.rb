@@ -80,7 +80,10 @@ module ThinkingSphinx
     def build(file_path=nil)
       load_models
       file_path ||= "#{self.config_file}"
-      database_confs = YAML.load(File.open("#{app_root}/config/database.yml"))
+      database_confs = ''
+      File.open("#{app_root}/config/database.yml") do |f|
+        database_confs = YAML.load(f)
+      end
       database_confs.symbolize_keys!
       database_conf  = database_confs[environment.to_sym]
       database_conf.symbolize_keys!
@@ -246,7 +249,8 @@ index #{model.name.downcase}
       path = "#{app_root}/config/sphinx.yml"
       return unless File.exists?(path)
       
-      conf = YAML.load(File.open(path))[environment]
+      File.open(path) do |file|
+        conf = YAML.load(file)[environment]
       
         conf.each do |key,value|
           self.send("#{key}=", value) if self.methods.include?("#{key}=")
@@ -254,3 +258,4 @@ index #{model.name.downcase}
       end
     end
   end
+end
