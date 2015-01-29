@@ -1,5 +1,5 @@
 require 'rake'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
  
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
  
