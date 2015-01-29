@@ -121,7 +121,7 @@ searchd
             adapter = case database_conf[:adapter]
             when "postgresql"
               "pgsql"
-            when "mysql"
+            when /^mysql/
               "mysql"
             else
               raise "Unsupported Database Adapter: Sphinx only supports MySQL and PosgreSQL"
@@ -137,7 +137,7 @@ source #{model.name.downcase}_#{i}_core
   sql_pass = #{database_conf[:password]}
   sql_db   = #{database_conf[:database]}
 
-  sql_query_pre    = #{charset_type == "utf-8" && adapter == "mysql" ? "SET NAMES utf8" : ""}
+  sql_query_pre    = #{charset_type == "utf-8" && adapter =~ /^mysql/ ? "SET NAMES utf8" : ""}
   sql_query_pre    = #{index.to_sql_query_pre}
   sql_query        = #{index.to_sql.gsub(/\n/, ' ')}
   sql_query_range  = #{index.to_sql_query_range}
@@ -151,7 +151,7 @@ source #{model.name.downcase}_#{i}_core
 
 source #{model.name.downcase}_#{i}_delta : #{model.name.downcase}_#{i}_core
 {
-  sql_query_pre    = #{charset_type == "utf-8" && adapter == "mysql" ? "SET NAMES utf8" : ""}
+  sql_query_pre    = #{charset_type == "utf-8" && adapter =~ /^mysql/ ? "SET NAMES utf8" : ""}
   sql_query        = #{index.to_sql(:delta => true).gsub(/\n/, ' ')}
   sql_query_range  = #{index.to_sql_query_range :delta => true}
 }
@@ -248,9 +248,9 @@ index #{model.name.downcase}
       
       conf = YAML.load(File.open(path))[environment]
       
-      conf.each do |key,value|
-        self.send("#{key}=", value) if self.methods.include?("#{key}=")
-      end unless conf.nil?
+        conf.each do |key,value|
+          self.send("#{key}=", value) if self.methods.include?("#{key}=")
+        end unless conf.nil?
+      end
     end
   end
-end
