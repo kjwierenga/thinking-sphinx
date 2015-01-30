@@ -1,6 +1,7 @@
 require 'active_record'
 require 'riddle'
 
+require 'thinking_sphinx/version'
 require 'thinking_sphinx/active_record'
 require 'thinking_sphinx/association'
 require 'thinking_sphinx/attribute'
@@ -17,13 +18,6 @@ Merb::Plugins.add_rakefiles(
 ) if defined?(Merb)
 
 module ThinkingSphinx
-  module Version #:nodoc:
-    Major = 0
-    Minor = 9
-    Tiny  = 2
-    
-    String = [Major, Minor, Tiny].join('.')
-  end
   
   # A ConnectionError will get thrown when a connection to Sphinx can't be
   # made.

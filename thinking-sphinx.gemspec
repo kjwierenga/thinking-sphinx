@@ -3,7 +3,7 @@ require 'rubygems/package_task'
  
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
  
-require 'thinking_sphinx'
+require 'thinking_sphinx/version'
 
 Gem::Specification.new do |s|
   s.name              = "thinking_sphinx"
