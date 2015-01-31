@@ -1,6 +1,3 @@
-require 'rake'
-require 'rubygems/package_task'
- 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
  
 require 'thinking_sphinx/version'
@@ -17,12 +14,11 @@ Gem::Specification.new do |s|
   s.rdoc_options     << "--title" << "Thinking Sphinx -- Rails/Merb Sphinx Plugin" <<
                         "--line-numbers"
   s.rubyforge_project = "thinking-sphinx"
-  s.test_files        = FileList["spec/**/*_spec.rb"]
-  s.files             = FileList[
-    "lib/**/*.rb",
-    "LICENCE",
-    "README",
-    "tasks/**/*.rb",
-    "tasks/**/*.rake"
-  ]
+  s.test_files        = Dir.glob("spec/**/*_spec.rb")
+  s.files             = \
+    Dir.glob("lib/**/*.rb") +
+    [ "LICENCE" , "README" ] +
+    Dir.glob("tasks/**/*.rb") +
+    Dir.glob("tasks/**/*.rake")
+
 end
